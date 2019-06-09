@@ -1,5 +1,4 @@
 var todo = new function () {
-
     this.deleteList = function (listId) {
         BootstrapDialog.confirm('Deleting a Todo List will also delete all tasks associated with it, are you sure?', function(result){
             if (result) {
@@ -16,10 +15,10 @@ var todo = new function () {
                         BootstrapDialog.alert({
                             title: 'Success',
                             message: 'Todo List was successfully deleted',
-                            type: BootstrapDialog.TYPE_PRIMARY, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                            closable: true, // <-- Default value is false
-                            draggable: true, // <-- Default value is false
-                            buttonLabel: 'OK', // <-- Default value is 'OK',
+                            type: BootstrapDialog.TYPE_PRIMARY, 
+                            closable: true, 
+                            draggable: true, 
+                            buttonLabel: 'OK', 
                             callback: function(result) {
                                 location.reload();
                             }
@@ -30,4 +29,20 @@ var todo = new function () {
             }
         });
     }
+
+    this.showTasks = function(event) {
+        listId = $(event.currentTarget).data("list-id");
+
+
+        // Expand the tasks area
+        $("#tasks-" + listId).collapse("toggle");
+    }
+
+    this.setEvents = function() {
+        $("[data-js-target='show-tasks']").on("click", todo.showTasks);
+    }
 }
+
+$( window ).load(function() {
+    todo.setEvents();
+});

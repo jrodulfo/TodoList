@@ -20,6 +20,3 @@ var Task = new function () {
     }
 
 };
-
-
-console.log(" ----------------------------------- task");

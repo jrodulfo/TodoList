@@ -10,9 +10,15 @@ class TodoListController extends Controller
 {
     public function list()
     {
-        $todoLists = TodoList::all();
-        // Compact helps us to create an array
-        return view('todolist.list')->with(compact('todoLists'));
+        $user = auth()->user();
+
+        if ($user != null) {
+            $todoLists = TodoList::where('user_id', $user->id)->get();
+            // Compact helps us to create an array
+            return view('todolist.list')->with(compact('todoLists'));
+        } else {
+            return view('nouser');
+        }
     }
 
     public function new(Request $request)
@@ -30,10 +36,8 @@ class TodoListController extends Controller
             $listId = $todoList->id;
             $tasks = $request->input('taskDescription');
             $order = 1;
-            foreach ($tasks as $taskDescription) 
-            {
-                if (trim($taskDescription) != '') 
-                {
+            foreach ($tasks as $taskDescription) {
+                if (trim($taskDescription) != '') {
                     $task = new Task();
                     $task->description = $taskDescription;
                     $task->todolist_id = $listId;
@@ -53,18 +57,13 @@ class TodoListController extends Controller
         if ($id != null) {
             // First validate if record exits
             $todoList = TodoList::find($id);
-            if ($todoList != null) 
-            { 
+            if ($todoList != null) {
                 $todoList->delete();
                 return response()->json(['status' => 'success', 'message' => 'Todo List successfully deleted']);
-            }
-            else
-            {
+            } else {
                 return response()->json(['status' => 'error', 'message' => 'Todo list not found']);
             }
-        } 
-        else 
-        {
+        } else {
             return response()->json(['status' => 'error', 'message' => 'Todo list not found']);
         }
     }

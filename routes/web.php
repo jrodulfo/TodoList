@@ -21,5 +21,6 @@ Route::get('/todolist/list', 'TodoListController@list');
 Route::post('/todolist/new', 'TodoListController@new');
 Route::post('/todolist/edit', 'TodoListController@edit');
 Route::post('/todolist/delete/{id}', 'TodoListController@delete');
+Route::get('/todolist/tasks/{id}', 'TaskController@list');
 
 // Ajax routes

@@ -24,40 +24,41 @@
                 <form method="POST" action="{{ url('/todolist/new') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="userId" value="{{ Auth::user()->id }}"/>
-                    <button type="submit" href="{{ url('/todolist/new') }}" class="btn btn-primary btn-round">New List</button>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="submit" href="{{ url('/todolist/new') }}" class="btn btn-primary btn-round">New List</button>
+                        </div>
+                    </div>    
                 </form>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <table class="table">
-                                @foreach ($todoLists as $list)
-                                    <tr>
-                                        <td class="todo-list--name">
-                                        {{ $list->title }}
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs" 
-                                            onclick="todo.deleteList('{{ $list->id }}')">
-                                            <!--data-toggle="modal" data-target="#deleteModal">-->
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                @foreach ($todoLists as $list)
+                <div clas="row">
+                    <div class="card">
+                        <div class="row card-header">
+                            <div class="col-md-10" data-js-target="show-tasks" data-list-id="{{ $list->id }}">
+                             <!--data-toggle="collapse" data-target="#tasks-{{$list->id}}" aria-expanded="false" aria-controls="tasks-{{$list->id}}">-->
+                                <h5 class="card-title">&nbsp;&nbsp;{{ $list->title }}</h5>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs" 
+                                onclick="todo.deleteList('{{ $list->id }}')">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="collapse" id="tasks-{{$list->id}}">
+                            <div class="card-body">
+                                <div class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</div>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
-                        
-                    </div>
                 </div>
+                @endforeach
             </div>
         </div>
-
     </div>
 
     <footer class="footer">
