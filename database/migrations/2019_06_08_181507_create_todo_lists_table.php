@@ -16,7 +16,6 @@ class CreateTodoListsTable extends Migration
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->integer('order');
             $table->timestamps();
             // Constraints
             $table->integer('user_id')->unsigned();

@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/todolist/list', 'TodoListController@list');
+Route::post('/todolist/new', 'TodoListController@new');
+Route::post('/todolist/edit', 'TodoListController@edit');
+Route::post('/todolist/delete/{id}', 'TodoListController@delete');
+
+// Ajax routes

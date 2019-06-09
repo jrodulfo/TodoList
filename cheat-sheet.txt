@@ -1,0 +1,34 @@
+// Create project for specific laravel version
+composer create-project laravel/laravel <TodoList> "5.1"
+
+// Start laravel server
+php artisan serve
+
+// Create controllers
+php artisan make:controller <controller>
+
+// Create Auth
+php artisan make:auth
+
+
+// DATA MODEL
+
+// Create new migration
+php artisan make:migration
+
+// Create new data model
+php artisan make:model <Model>
+
+// Create both model and migration
+php artisan make:model <Model> -m
+
+// Update DB
+php artisan migrate
+
+// Rollback to a specific batch
+php artisan migrate:rollback <batch>
+
+// Rollback all applied migrations
+php artisan mirate:reset
+
+// Eloquent - Laravel's ORM

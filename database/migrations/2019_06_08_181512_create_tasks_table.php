@@ -18,7 +18,9 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->string('description');
             $table->text('details')->nullable();
+            $table->integer('order')->unsigned()->default(0);
             $table->dateTime('due_date')->nullable();
+            $table->boolean('done')->default(false);
             $table->timestamps();
             // Constraints
             $table->integer('todolist_id')->unsigned();
