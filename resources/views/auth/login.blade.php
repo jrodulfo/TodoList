@@ -1,3 +1,6 @@
+<!--
+    User login view
+-->
 @extends('layouts.app')
 
 @section('body-class', 'signup-page')

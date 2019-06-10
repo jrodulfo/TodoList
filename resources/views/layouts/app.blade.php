@@ -1,3 +1,6 @@
+<!--
+    Template used for all views
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

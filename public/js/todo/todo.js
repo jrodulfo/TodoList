@@ -1,5 +1,10 @@
+/**
+ * Javascript file that holds functionality for "lists" view
+ */
 var todo = new function () {
+    // Variable used to hold a row task on editing
     this.editingTask = '';
+    // HTML template for task edition
     this.taskEditRow =  '    <div class="col-md-10">'+
                         '            <div class="input-group">'+
                         '                <span class="input-group-addon"><i class="material-icons">list_alt</i></span>'+
@@ -14,13 +19,13 @@ var todo = new function () {
                         '            <i class="fa fa-window-close"></i>'+
                         '        </button>'+
                         '    </div>';
-
+    // HTML template used for restoring task after cancel edition
     this.taskRow=   '<div class="row">'+
                     '    <div class="col-md-12">'+
                     '        {description}'+
                     '    </div>'+
                     '</div>';
-
+    // HTML template for tasks in "Done" status
     this.doneTasksRow = '<div class="row" data-js-target="task-row-{taskId}" data-task-id="{taskId}">'+
                         '    <div class="col-md-10">'+
                         '        <h5>&nbsp;&nbsp;{description}</h5>'+
@@ -31,7 +36,7 @@ var todo = new function () {
                         '        </button>'+
                         '    </div>'+
                         '</div>';
-
+    // HTML template used for restoring task after cancel edition
     this.taskDescription =  '        <span class="label label-default move-task" rel="tooltip" title="Move task down" data-js-target="task-down" data-task-id="{taskId}">'+
                             '            <i class="fa fa-angle-down" ></i>'+
                             '        </span>'+
@@ -40,7 +45,7 @@ var todo = new function () {
                             '            <i class="fa fa-angle-up" ></i>'+
                             '        </span>'+
                             '        &nbsp;&nbsp;{description}';
-
+    // HTML template for tasks in 'On Going' status
     this.ongoingTasksRow =  '<div class="row" data-js-target="task-row-{taskId}" data-task-id="{taskId}">'+
                             '    <div class="col-md-10">'+
                             '    <h5>'+
@@ -66,7 +71,7 @@ var todo = new function () {
                             '        </button>'+
                             '    </div>'+
                             '</div>';
-                        
+    // Deletes a Todo List      
     this.deleteList = function (event) {
         var listId = $(event.currentTarget).data("list-id");
         BootstrapDialog.confirm('Deleting a Todo List will also delete all tasks associated with it, are you sure?', function(result){
@@ -107,6 +112,7 @@ var todo = new function () {
         });
     }
 
+    // Gets tasks and renders them
     this.showTasks = function(event) {
         var listId = $(event.currentTarget).data("list-id");
         var panel = $("#tasks-" + listId);
@@ -143,7 +149,6 @@ var todo = new function () {
                     doneContainer.append($($.parseHTML(row)));
                 });
     
-                // Set events
                 todo.setDynamicEvents();
             });
             $("#tasks-" + listId).collapse("show");
@@ -152,6 +157,7 @@ var todo = new function () {
         }
     }
 
+    // Mark task as 'Done'
     this.completeTask = function(event) {
         todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
@@ -189,10 +195,9 @@ var todo = new function () {
         });
     }
 
+    // Deletes a task
     this.deleteTask = function(event) {
         todo.cancelAllEdits();
-
-
         BootstrapDialog.confirm('This will delete the task, are you sure?', function(result){
             if (result) {
                 var taskId = $(event.currentTarget).data("task-id");
@@ -220,7 +225,7 @@ var todo = new function () {
             }
         });
     }
-
+    // Renders the task edit row
     this.editTask = function(event) {
         todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
@@ -233,7 +238,7 @@ var todo = new function () {
         currentRow.html(row);
         todo.setDynamicEvents();
     }
-
+    // Cancels a task edition, restoring original task row
     this.cancelEditTask = function(event) {
         var taskId = $(event.currentTarget).data("task-id");
         var currentRow = $($("[data-js-target='task-row-" + taskId + "']")[0]);
@@ -242,7 +247,7 @@ var todo = new function () {
         todo.editingTask = '';
         todo.setDynamicEvents();
     }
-
+    // Saves changes done in edit mode of a task
     this.updateTask = function(event) {
         var taskId = $(event.currentTarget).data("task-id");
         var description = $("[data-js-target='task-description-" + taskId + "']").val();
@@ -277,20 +282,20 @@ var todo = new function () {
             }
         });
     }
-
+    // Shows the Add new task row
     this.addTask = function(event) {
         var listId = $(event.currentTarget).data("list-id");
 
         $("[data-js-target='new-task-" + listId).collapse("show");
     }
-
+    // Hides and clears data on add new task row
     this.cancelTask = function(event) {
         var listId = $(event.currentTarget).data("list-id");
 
         $("[data-js-target='new-task-input-"+ listId +"']").val('');
         $("[data-js-target='new-task-"+ listId +"']").collapse("hide");
     }
-
+    // Creates a new task based on data input on the new task row
     this.saveTask = function(event) {
         var listId = $(event.currentTarget).data("list-id");
         var taskDescription=$("[data-js-target='task-description-"+ listId +"']").val();
@@ -326,16 +331,16 @@ var todo = new function () {
             }
         });
     }
-
+    // Shows the Add Todo List row
     this.addList = function(event) {
         $("[data-js-target='new-list']").collapse("show");
     }
-
+    // Hides the Add Todo List row, and clears any data it has
     this.cancelList = function(event) {
         $("[data-js-target='list-description']").val('');
         $("[data-js-target='new-list']").collapse("hide");        
     }
-
+    // Saves a new list based on data in the Add Todo List row
     this.saveList = function(event) {
         var listDescription=$("[data-js-target='list-description']").val();
 
@@ -365,7 +370,7 @@ var todo = new function () {
         });
         todo.setDynamicEvents();
     }
-
+    // Exchanges task position with the task before it
     this.taskUp = function(event) {
         todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
@@ -395,7 +400,7 @@ var todo = new function () {
         todo.setDynamicEvents();
 
     }
-
+    // Exchanges task position with the task after it
     this.taskDown = function(event) {
         todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
@@ -425,7 +430,7 @@ var todo = new function () {
         }
         todo.setDynamicEvents();
     }
-
+    // Executes the order change for 2 tasks
     this.exchangeTasksOrder = function(taskId1, taskId2) {
         $.ajax({
             url: '/todolist/tasks/exchangeOrder',
@@ -449,7 +454,7 @@ var todo = new function () {
             }
         });
     }
-
+    // Sets global events
     this.setEvents = function() {
         // First remove current events
         $("[data-js-target='show-tasks']").off("click.todo");
@@ -485,7 +490,7 @@ var todo = new function () {
             });
         });
     }
-
+    // Sets events for dynamically created elements
     this.setDynamicEvents = function() {
         // First remove current events
         $("[data-js-target='complete-task']").off("click.completeTask");
@@ -509,13 +514,13 @@ var todo = new function () {
         $("[data-js-target='task-up']").on("click.taskUp", todo.taskUp);
         $("[data-js-target='task-down']").on("click.taskDown", todo.taskDown);
     }
-
+    // Hides and clears both edit rows (Add new task and Add new todo list)
     this.cancelAllEdits = function() {
         $('[data-js-target="cancel-task"]').click();
         $('[data-js-target="cancel-edit-task"]').click();
     }
 }
-
+// Initializes events after page load
 $( window ).load(function() {
     todo.setEvents();
 });

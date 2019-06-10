@@ -6,8 +6,15 @@ use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Traits\Macroable;
 
+/*
+    Controller for task stuff
+
+    User identify isn't expected in request parameters, it 
+    is always retrived using the auth() helper
+*/
 class TaskController extends Controller
 {
+    // Get a list of tasks associated to a Todo List
     public function list($id)
     {
         $user = auth()->user();
@@ -42,6 +49,7 @@ class TaskController extends Controller
         }
     }
 
+    // Mark a task as done
     public function complete($id)
     {
         $user = auth()->user();
@@ -61,6 +69,7 @@ class TaskController extends Controller
         return response()->json($returnData);
     }
 
+    // Delete a task
     public function delete($id)
     {
         $user = auth()->user();
@@ -80,6 +89,7 @@ class TaskController extends Controller
         return response()->json($returnData);
     }
 
+    // Create new task
     public function new(Request $request)
     {
         $user = auth()->user();
@@ -123,6 +133,7 @@ class TaskController extends Controller
         return response()->json($returnData);
     }
 
+    // Update task name/description
     public function updateDescription(Request $request)
     {
         $user = auth()->user();
@@ -153,6 +164,7 @@ class TaskController extends Controller
         return response()->json($returnData);
     }
 
+    // Exchanges order of 2 tasks
     public function exchangeOrder(Request $request)
     {
         $user = auth()->user();
@@ -168,13 +180,11 @@ class TaskController extends Controller
             $order1 = $task1->taskOrder;
             $order2 = $task2->taskOrder;
 
-            $task1->taskOrder=$order2;
-            $task2->taskOrder=$order1;
+            $task1->taskOrder = $order2;
+            $task2->taskOrder = $order1;
 
             $task1->save();
             $task2->save();
-            //Task::where('id', $taskId1)->update(['taskOrder' => $order2]);
-            //Task::where('id', $taskId2)->update(['taskOrder' => $order1]);
             $returnData['status'] = "success";
         } else {
             $returnData['message'] = 'No user is logged or session has expired';

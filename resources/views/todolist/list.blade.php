@@ -1,3 +1,8 @@
+<!--
+    This view is our 'main' view
+
+    Between this, the user can view/delete/edit/add lists and tasks
+-->
 @extends('layouts.app')
 
 @section('title', 'Todo Lists')

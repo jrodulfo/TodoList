@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/*
+    Model class for Taks
+*/
 class Task extends Model
 {
     protected $table = 'tasks';

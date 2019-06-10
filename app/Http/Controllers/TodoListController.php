@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\TodoList;
-use App\Task;
 
+/* 
+    List related stuff controller
+    
+    User identify isn't expected in request parameters, it 
+    is always retrived using the auth() helper
+*/
 class TodoListController extends Controller
 {
+    // Returns the main view, with the current lists that the user has
     public function list()
     {
         $user = auth()->user();
@@ -21,6 +27,7 @@ class TodoListController extends Controller
         }
     }
 
+    // Creates a new Todo List
     public function new(Request $request)
     {
         $user = auth()->user();
@@ -44,6 +51,7 @@ class TodoListController extends Controller
         return response()->json($returnData);
     }
 
+    // Deletes a Todo List
     public function delete($id)
     {
         $user = auth()->user();
