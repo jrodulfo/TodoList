@@ -2,8 +2,6 @@
 
 @section('title', 'Todo Lists')
 
-@section('body-class', 'landing-page')
-
 @section('styles')
     <link href="{{ asset('css/list/list.css') }}" rel="stylesheet" />
 @endsection
@@ -13,21 +11,19 @@
 @endsection
 
 @section('content')
-    <div class="header header-filter">
-        
+    <div class="header header-filter list-header" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="title list-title">Todo Lists</h1>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="main main-raised">
         <div class="container">
             <div class="section">
-                <nav class="navbar navbar-default" role="navigation">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <div class="navbar-brand" href="#">{{ Auth::user()->name }}'s Todo Lists</div>
-                        </div>
-                    </div>
-                </nav>
-                
                 @foreach ($todoLists as $list)
                     <div clas="row" data-row-list-id="{{ $list->id }}">
                         <div class="card">
@@ -117,7 +113,7 @@
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <button type="button" rel="tooltip" title="Add New List" class="btn btn-info btn-primary btn-xs" data-js-target="add-new-list">
-                            <i class="fa fa-plus"></i>
+                            Add New List
                         </button>
                     </div>
                 </div>

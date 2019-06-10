@@ -155,6 +155,7 @@ var todo = new function () {
     }
 
     this.completeTask = function(event) {
+        todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
         var listId = $(event.currentTarget).data("listId");
         $.ajax({
@@ -169,7 +170,13 @@ var todo = new function () {
                 var container = $($("[data-container-id='" + listId + "']")[0]);
                 var doneContainer = $(container.find(".done-tasks-container")[0]);
                 var doneTask=$("[data-js-target='task-row-"+taskId+"']");
-                doneTask.find("[data-js-target='complete-task'], [data-task-id='31']")[0].remove();
+                $("[data-js-target='complete-task'][data-task-id='" + taskId + "']").remove();
+                $("[data-js-target='task-down'][data-task-id='" + taskId + "']").remove();
+                $("[data-js-target='task-up'][data-task-id='" + taskId + "']").remove();
+                $("[data-js-target='edit-task'][data-task-id='" + taskId + "']").remove();
+                // Remove extra spaces left after removing buttons
+                var taskDescription="&nbsp;&nbsp;"+doneTask.find("h5").html().replace(/&nbsp;/g,'').trim();
+                doneTask.find("h5").html(taskDescription);
                 doneTask.appendTo(doneContainer);
             }else{
                 BootstrapDialog.alert({
@@ -220,6 +227,7 @@ var todo = new function () {
     }
 */
     this.deleteTask = function(event) {
+        todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
         $.ajax({
             url: '/todolist/tasks/delete/'+taskId,
@@ -255,6 +263,7 @@ var todo = new function () {
     }
 
     this.editTask = function(event) {
+        todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
         var currentRow = $($("[data-js-target='task-row-" + taskId + "']")[0]);
         var currentDescription = currentRow.find("h5").text().trim();
@@ -342,9 +351,10 @@ var todo = new function () {
                 var ongoingContainer = $(container.find(".ongoing-tasks-container")[0]);
 
                 var task = data.data;
-                var row = todo.ongoingTasksRow.replace(/{description}/g, task.description).replace(/{taskId}/g, task.id);
+                var row = todo.ongoingTasksRow.replace(/{description}/g, task.description).replace(/{taskId}/g, task.id).replace(/{listId}/g, task.todolist_id);
                 ongoingContainer.append($($.parseHTML(row)));
                 $("[data-js-target='task-description-"+ listId +"']").val('');
+                todo.setDynamicEvents();
             }else{
                 BootstrapDialog.alert({
                     title: 'Warning',
@@ -360,6 +370,11 @@ var todo = new function () {
 
     this.addList = function(event) {
         $("[data-js-target='new-list']").collapse("show");
+    }
+
+    this.cancelList = function(event) {
+        $("[data-js-target='list-description']").val('');
+        $("[data-js-target='new-list']").collapse("hide");        
     }
 
     this.saveList = function(event) {
@@ -399,9 +414,11 @@ var todo = new function () {
                 });
             }
         });
+        todo.setDynamicEvents();
     }
 
     this.taskUp = function(event) {
+        todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
         var selectedRow = $("[data-js-target='task-row-" + taskId + "']");
         var container = selectedRow.parent();
@@ -431,6 +448,7 @@ var todo = new function () {
     }
 
     this.taskDown = function(event) {
+        todo.cancelAllEdits();
         var taskId = $(event.currentTarget).data("task-id");
         var selectedRow = $("[data-js-target='task-row-" + taskId + "']");
         var container = selectedRow.parent();
@@ -478,8 +496,6 @@ var todo = new function () {
                     closable: true, 
                     draggable: true, 
                     buttonLabel: 'OK', 
-                    callback: function(result) {
-                    }
                 });
             }
         });
@@ -494,6 +510,7 @@ var todo = new function () {
         $("[data-js-target='save-task'").off("click.saveTask");
         $("[data-js-target='add-new-list'").off("click.addList");
         $("[data-js-target='save-list'").off("click.saveList");
+        $("[data-js-target='cancel-list'").off("click.cancelList");
 
         // Now set events
         $("[data-js-target='show-tasks']").on("click.todo", todo.showTasks);
@@ -503,6 +520,7 @@ var todo = new function () {
         $("[data-js-target='save-task'").on("click.saveTask", todo.saveTask);
         $("[data-js-target='add-new-list'").on("click.addList", todo.addList);
         $("[data-js-target='save-list'").on("click.saveList", todo.saveList);
+        $("[data-js-target='cancel-list'").on("click.cancelList", todo.cancelList);
 
         $( document ).ajaxError(function() {
             BootstrapDialog.alert({
@@ -541,6 +559,11 @@ var todo = new function () {
         $("[data-js-target='update-task']").on("click.updateTask", todo.updateTask);
         $("[data-js-target='task-up']").on("click.taskUp", todo.taskUp);
         $("[data-js-target='task-down']").on("click.taskDown", todo.taskDown);
+    }
+
+    this.cancelAllEdits = function() {
+        $('[data-js-target="cancel-task"]').click();
+        $('[data-js-target="cancel-edit-task"]').click();
     }
 }
 

@@ -25,3 +25,12 @@
 .move-task {
     cursor: pointer;
 }
+
+.list-header {
+    min-height: 150px !important;
+    background: linear-gradient(60deg, #ab47bc, #7b1fa2);
+}
+
+.list-title {
+    color: #fff;
+}

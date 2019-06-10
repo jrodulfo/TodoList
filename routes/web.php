@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/todolist/list');
 });
 
 Auth::routes();
@@ -29,3 +29,4 @@ Route::post('/todolist/tasks/add', 'TaskController@new');
 Route::post('/todolist/tasks/updateDescription', 'TaskController@updateDescription');
 Route::post('/todolist/tasks/exchangeOrder', 'TaskController@exchangeOrder');
 
+Route::post('/user/drop', 'UserController@drop');
