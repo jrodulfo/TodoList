@@ -1,7 +1,6 @@
 var todo = new function () {
     this.editingTask = '';
-    this.taskEditRow =  //'<div class="row" data-js-target="new-task-area">'+
-                        '    <div class="col-md-10">'+
+    this.taskEditRow =  '    <div class="col-md-10">'+
                         '            <div class="input-group">'+
                         '                <span class="input-group-addon"><i class="material-icons">list_alt</i></span>'+
                         '                <input type="text" class="form-control" name="taskDescription" placeholder="Task Description" data-js-target="task-description-{taskId}" value="{description}"/>'+
@@ -15,7 +14,6 @@ var todo = new function () {
                         '            <i class="fa fa-window-close"></i>'+
                         '        </button>'+
                         '    </div>';
-                        //'</div>';
 
     this.taskRow=   '<div class="row">'+
                     '    <div class="col-md-12">'+
@@ -190,73 +188,34 @@ var todo = new function () {
             }
         });
     }
-/*
-    this.deleteTask = function(event) {
-        var taskId = $(event.currentTarget).data("task-id");
-        $.ajax({
-            url: '/todolist/tasks/delete/'+taskId,
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                _token: window.Laravel.csrfToken
-            }
-        }).done(function (data) {
-            if (data.status === "success") {
-                BootstrapDialog.alert({
-                    title: 'Success',
-                    message: 'Task has been deleted',
-                    type: BootstrapDialog.TYPE_PRIMARY, 
-                    closable: true, 
-                    draggable: true, 
-                    buttonLabel: 'OK', 
-                    callback: function(result) {
-                        $("[data-js-target='task-row-"+taskId+"']").remove();
-                    }
-                });
-            }else{
-                BootstrapDialog.alert({
-                    title: 'Warning',
-                    message: data.message,
-                    type: BootstrapDialog.TYPE_PRIMARY, 
-                    closable: true, 
-                    draggable: true, 
-                    buttonLabel: 'OK'
-                });
-            }
-        });
-    }
-*/
+
     this.deleteTask = function(event) {
         todo.cancelAllEdits();
-        var taskId = $(event.currentTarget).data("task-id");
-        $.ajax({
-            url: '/todolist/tasks/delete/'+taskId,
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                _token: window.Laravel.csrfToken
-            }
-        }).done(function (data) {
-            if (data.status === "success") {
-                BootstrapDialog.alert({
-                    title: 'Success',
-                    message: 'Task has been deleted',
-                    type: BootstrapDialog.TYPE_PRIMARY, 
-                    closable: true, 
-                    draggable: true, 
-                    buttonLabel: 'OK', 
-                    callback: function(result) {
-                        $("[data-js-target='task-row-"+taskId+"']").remove();
+
+
+        BootstrapDialog.confirm('This will delete the task, are you sure?', function(result){
+            if (result) {
+                var taskId = $(event.currentTarget).data("task-id");
+                $.ajax({
+                    url: '/todolist/tasks/delete/'+taskId,
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        _token: window.Laravel.csrfToken
                     }
-                });
-            }else{
-                BootstrapDialog.alert({
-                    title: 'Warning',
-                    message: data.message,
-                    type: BootstrapDialog.TYPE_PRIMARY, 
-                    closable: true, 
-                    draggable: true, 
-                    buttonLabel: 'OK'
+                }).done(function (data) {
+                    if (data.status === "success") {
+                        $("[data-js-target='task-row-"+taskId+"']").remove();
+                    }else{
+                        BootstrapDialog.alert({
+                            title: 'Warning',
+                            message: data.message,
+                            type: BootstrapDialog.TYPE_PRIMARY, 
+                            closable: true, 
+                            draggable: true, 
+                            buttonLabel: 'OK'
+                        });
+                    }
                 });
             }
         });
@@ -390,17 +349,7 @@ var todo = new function () {
             }
         }).done(function (data) {
             if (data.status === 'success'){
-                BootstrapDialog.alert({
-                    title: 'Success',
-                    message: 'Todo List was successfully saved',
-                    type: BootstrapDialog.TYPE_PRIMARY, 
-                    closable: true, 
-                    draggable: true, 
-                    buttonLabel: 'OK', 
-                    callback: function(result) {
-                        location.reload();
-                    }
-                });
+                location.reload();
             }else{
                 BootstrapDialog.alert({
                     title: 'Warning',

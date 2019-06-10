@@ -36,9 +36,6 @@
                                     {{ $list->title }}</h5>
                                 </div>
                                 <div class="col-md-2 text-right">
-                                    <button type="button" rel="tooltip" title="Edit list" class="btn btn-info btn-simple btn-xs" data-js-target="edit-list" data-list-id="{{ $list->id }}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
                                     <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs" data-js-target="delete-list" data-list-id="{{ $list->id }}">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -123,33 +120,7 @@
 
     <footer class="footer">
         <div class="container">
-            <nav class="pull-left">
-                <ul>
-                    <li>
-                        <a href="http://www.creative-tim.com">
-                            Creative Tim
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://presentation.creative-tim.com">
-                            About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com">
-                            Blog
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.creative-tim.com/license">
-                            Licenses
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="copyright pull-right">
-                &copy; 2016, made with <i class="fa fa-heart heart"></i> by Creative Tim
-            </div>
+
         </div>
     </footer>
 @endsection

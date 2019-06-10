@@ -1,11 +1,7 @@
 .todo-list--name {
     padding-top: 17px;
 }
-/*
-.task--done {
-    text-decoration: line-through;
-}
-*/
+
 .text-transformation-none {
     text-transform: unset !important;
 }

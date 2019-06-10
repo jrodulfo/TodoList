@@ -1,27 +1,44 @@
-# Laravel PHP Framework
+# ToDo List App
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+The following functionality is implemented:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+- Register User
+- Delete User Account
+- Todo Lists
+  - Have more than 1 Todo List by user
+  - Create
+  - Delete
+- Tasks
+  - Create
+  - Delete
+  - Edit
+  - Set as "Done"
+  - Change order
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Setup
 
-## Official Documentation
+The app requires a DB to be functional, edit the file `.env` to setup the DB connection settings
+The app has DB migration scripts, once the DB has been created and the connection has been configured you can create the DB structure using laravel's migrate functionality (`php artisan migrate`).
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+The app can be tested locally using laravel server: `php artisan serve`
 
-## Contributing
+## Frameworks/libraries used
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+The app was developed using PHP 7 and Laravel 5.3; it makes extensive use of javascript to manipulate the DOM and load and save data using ajax calls.
 
-## Security Vulnerabilities
+- Bootstrap
+- jQuery
+- Using "Material Kit" Bootstrap 4 template for the UI (https://www.creative-tim.com/product/material-kit)
+- 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## Known issues
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- Responsive site is not fully developed
+- Some visual glitches (like not positioning focus on elements when created)
+- No special keyboard keys listening for events (like using `ESC` and `ENTER` keys when editing)
+- Not sure all possible scenarios have been tested
+- Some exception handling is missing
+- No UT has been implemented
+- When saving a new list, the page gets reloaded
+- No initial data setup has been done
+- No password recovery has been implemented
