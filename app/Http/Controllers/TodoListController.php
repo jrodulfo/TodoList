@@ -23,48 +23,46 @@ class TodoListController extends Controller
 
     public function new(Request $request)
     {
-        //dd($request->all());
-        if ($request->input('title') == null) {
-            return view('todolist.new');
-        } else {
-            $todoList = new TodoList();
-            $todoList->title = $request->input('title');
-            $todoList->user_id = $request->input('userId');
-            $todoList->save();
+        $user = auth()->user();
+        $returnData = array(['status' => 'error']);
 
-            // If the user captured tasks, save them
-            $listId = $todoList->id;
-            $tasks = $request->input('taskDescription');
-            $order = 1;
-            foreach ($tasks as $taskDescription) {
-                if (trim($taskDescription) != '') {
-                    $task = new Task();
-                    $task->description = $taskDescription;
-                    $task->todolist_id = $listId;
-                    $task->order = $order++;
-                    $task->done = false;
-                    $task->save();
-                }
+        if ($user != null) {
+            if ($request->input('title') == null) {
+                return view('todolist.new');
+            } else {
+                $todoList = new TodoList();
+                $todoList->title = $request->input('title');
+                $todoList->user_id = $user->id;
+                $todoList->save();
             }
+            $returnData['status'] = 'success';
+        } else {
+            $returnData['message'] = 'No user is logged or session has expired';
+            $returnData['code'] = 'NOUSER';
         }
-        // Go to lists view
-        $todoLists = TodoList::all();
-        return view('todolist.list')->with(compact('todoLists'));
+
+        return response()->json($returnData);
     }
 
     public function delete($id)
     {
-        if ($id != null) {
-            // First validate if record exits
-            $todoList = TodoList::find($id);
-            if ($todoList != null) {
-                $todoList->delete();
-                return response()->json(['status' => 'success', 'message' => 'Todo List successfully deleted']);
+        $user = auth()->user();
+
+        if ($user != null) {
+            if ($id != null) {
+                // First validate if record exits
+                $todoList = TodoList::find($id);
+                if ($todoList != null) {
+                    $todoList->delete();
+                    return response()->json(['status' => 'success', 'message' => 'Todo List successfully deleted']);
+                } else {
+                    return response()->json(['status' => 'error', 'message' => 'Todo list not found']);
+                }
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Todo list not found']);
             }
         } else {
-            return response()->json(['status' => 'error', 'message' => 'Todo list not found']);
+            return view('nouser');
         }
     }
 }

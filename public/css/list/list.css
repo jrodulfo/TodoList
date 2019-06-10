@@ -1,3 +1,27 @@
 .todo-list--name {
     padding-top: 17px;
 }
+/*
+.task--done {
+    text-decoration: line-through;
+}
+*/
+.text-transformation-none {
+    text-transform: unset !important;
+}
+
+.padding-top-20 {
+    padding-top: 20px;
+}
+
+.done-tasks-container > div > div > h5 {
+    text-decoration: line-through;
+}
+
+.list-name {
+    background-color: #eee;
+}
+
+.move-task {
+    cursor: pointer;
+}

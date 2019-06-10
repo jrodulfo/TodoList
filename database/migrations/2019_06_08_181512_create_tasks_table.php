@@ -17,8 +17,7 @@ class CreateTasksTable extends Migration
             // Columns
             $table->increments('id');
             $table->string('description');
-            $table->text('details')->nullable();
-            $table->integer('order')->unsigned()->default(0);
+            $table->integer('taskOrder')->unsigned()->default(0);
             $table->dateTime('due_date')->nullable();
             $table->boolean('done')->default(false);
             $table->timestamps();
